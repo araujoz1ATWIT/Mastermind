@@ -73,6 +73,7 @@ public class HelloController {
     }
 
     public void initialize() {
+        Audio.playAudio("gameStart.wav");
 
         //Clear Previous inputs;
         Code code = new Code(MainApp.CODE_SIZE);
@@ -103,6 +104,7 @@ public class HelloController {
 
                     if (rowNum == CURRENT_GAME_ROW) {
                         if (MainApp.DUPLICATES_ALLOWED_IN_CODE) {
+                            Audio.playAudio("pegPlace.wav");
                             p.circle.setFill(Paint.valueOf(toString(CURRENT_COLOR)));
                             p.color = CURRENT_COLOR;
                             System.out.println(String.format("Peg color : %s", p.color));
@@ -118,7 +120,8 @@ public class HelloController {
                                     }
                                 }
                             }
-                            if (!isUsed){
+                            if (!isUsed) {
+                                Audio.playAudio("pegPlace.wav");
                                 p.circle.setFill(Paint.valueOf(toString(CURRENT_COLOR)));
                                 p.color = CURRENT_COLOR;
                             }
@@ -134,7 +137,7 @@ public class HelloController {
         createHintPegs();
 
         restartButton.setOnAction(actionEvent -> {
-            //System.out.println("pressed");
+            Audio.playAudio("gameStart.wav");
             code.getCode(MainApp.DUPLICATES_ALLOWED_IN_CODE);
             System.out.println(Arrays.toString(code.getColorCombination()));
             resetBoard();
@@ -147,7 +150,7 @@ public class HelloController {
         });
 
         checkButton.setOnAction(actionEvent -> {
-
+                    Audio.playAudio("checkSound.wav");
                     getCurrentPegs();
                     boolean isEmpty = false;
                     for (int i = 0; i < colorsInRow.length; i++) {
@@ -188,7 +191,7 @@ public class HelloController {
                             CURRENT_GAME_ROW--;
 
                             if (gameWin == true) {
-
+                                Audio.playAudio("gameWin.wav");
                                 computerCode1.setFill(Paint.valueOf(toString(code.getColorCombination()[0])));
                                 computerCode2.setFill(Paint.valueOf(toString(code.getColorCombination()[1])));
                                 computerCode3.setFill(Paint.valueOf(toString(code.getColorCombination()[2])));
@@ -202,6 +205,7 @@ public class HelloController {
                         } else if (CURRENT_GAME_ROW <= 0 && gameWin == true) {
                             //Change display to show computer code
                             // TODO: 04/19/2022 make code to restart
+                            Audio.playAudio("gameWin.wav");
                             computerCode1.setFill(Paint.valueOf(toString(code.getColorCombination()[0])));
                             computerCode2.setFill(Paint.valueOf(toString(code.getColorCombination()[1])));
                             computerCode3.setFill(Paint.valueOf(toString(code.getColorCombination()[2])));
@@ -214,6 +218,7 @@ public class HelloController {
                             //Change display to show computer code
                             //User Lost the game
                             // TODO: 04/19/2022 make code to restart
+                            Audio.playAudio("gameLost.wav");
                             computerCode1.setFill(Paint.valueOf(toString(code.getColorCombination()[0])));
                             computerCode2.setFill(Paint.valueOf(toString(code.getColorCombination()[1])));
                             computerCode3.setFill(Paint.valueOf(toString(code.getColorCombination()[2])));
@@ -306,11 +311,7 @@ public class HelloController {
 
             }
         }
-
-
         CURRENT_GAME_ROW = 9;
-
-
     }
 
     private void getCurrentPegs() {

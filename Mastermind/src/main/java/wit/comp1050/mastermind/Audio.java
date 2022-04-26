@@ -1,32 +1,27 @@
 package wit.comp1050.mastermind;
+import java.io.IOException;
+
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import java.io.File;
-import java.net.URL;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.util.Scanner;
 
 public class Audio {
-    public static void main(String[] args){
-        //System.out.println(Audio.class.getClassLoader().getResourceAsStream("README.md"));
-        //playSound("sounds/pegPlace.wav");
-        Audio audio = new Audio();
-        audio.playMusic("checkSound.wav");
-    }
 
-    void playMusic(String musicLocation){
+    public static void playAudio(String fileName) {
+        Scanner input = new Scanner(System.in);
+        AudioInputStream audioIn;
         try {
-            File musicPath = new File(musicLocation);
+            audioIn = AudioSystem.getAudioInputStream(Audio.class.getClassLoader().getResourceAsStream(fileName));
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            clip.start();
 
-            if (musicPath.exists()){
-                AudioInputStream ais = AudioSystem.getAudioInputStream(musicPath);
-                Clip clip = AudioSystem.getClip();
-                clip.start();
-            } else {
-                System.out.println("Cant find file.");
-            }
-        } catch (Exception ex){
-            ex.printStackTrace();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException  e) {
+            e.printStackTrace();
         }
     }
 
